@@ -1,21 +1,12 @@
 [project]
-name = "beta-binomial-model"
-version = "0.1.0"
-description = "Add your description here"
+name = "Probabilistic_Models"
+version = "1.0.1"
+description = "I'm trying to implement most of the probabilistic models from scratch."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "matplotlib>=3.10.9",
-    "numpy>=2.4.4",
+    "numpy>=2.4.6",
     "pandas>=3.0.3",
-    "scipy>=1.17.1",
-    "torch>=2.12.0",
-    "torchaudio>=2.11.0",
-    "torchvision>=0.27.0",
+    "seaborn>=0.13.2",
 ]
-
-[tool.uv]
-[[tool.uv.index]]
-name = "pytorch-xpu"
-url = "https://download.pytorch.org/whl/xpu"
-explicit = true
