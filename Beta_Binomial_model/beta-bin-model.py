@@ -106,14 +106,14 @@ class beta_binomial_model:
         return (a * b) / ((a + b) ** 2 * (a + b + 1))
 
 
-# 1. Initialize model
+# 1. Initializing model
 model = beta_binomial_model(alpha=2, beta=2, error_coef=1e-10)
 
-# 2. Setup plotting
+# 2. Setting plotting
 p_values = np.linspace(0.01, 0.99, 200)
 fig, ax = plt.subplots(figsize=(10, 6))
 
-# Define data batches (e.g., [successes, trials])
+# Defining data batches (e.g., [successes, trials])
 batches = [[4, 5], [10, 10]]
 
 # Plotting the process
@@ -122,7 +122,7 @@ for i, (k, n) in enumerate(batches):
     _, post_probs = model.posterior(p_values)
     ax.plot(p_values, post_probs, label=f"Step {i}: After {k}/{n} obs")
 
-    # Update model with new batch
+    # Updating model with new batch
     model.posterior_updation(k, n)
 
 # Final result
