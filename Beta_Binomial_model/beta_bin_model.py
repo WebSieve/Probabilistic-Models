@@ -1,6 +1,6 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import betaln, gammaln
-import matplotlib.pyplot as plt
 
 
 class beta_binomial_model:
