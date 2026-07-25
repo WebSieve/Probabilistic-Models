@@ -28,8 +28,8 @@ Bayesian sequential updating for binary outcomes (success/failure trials).
 
 ### Dirichlet-Multinomial Model (Dirichlet-Multinomial Naive Bayes)
 
-**Location:** `Dirchlet_Multinomial_Model/dirichlet_multinomial_model.py` (clean)  
-**Mathematical details:** `Dirchlet_Multinomial_Model/doc.md`
+**Location:** `Dirichlet_Multinomial_Model/dirichlet_multinomial_model.py` (clean)  
+**Mathematical details:** `Dirichlet_Multinomial_Model/doc.md`
 
 Full Bayesian text classifier using the Dirichlet-Multinomial compound distribution.
 
@@ -80,11 +80,11 @@ New models currently in development:
 
 ```
 PPModels/
+├── pyproject.toml                  # Project configuration
 ├── Beta_Binomial_model/
 │   └── beta_bin_model.py          # Beta-Binomial implementation + demo
-└── Dirchlet_Multinomial_Model/
+└── Dirichlet_Multinomial_Model/
     ├── dirichlet_multinomial_model.py  # Clean implementation
-    ├── d.py                        # Heavily commented + demos
     ├── doc.md                      # Full mathematical documentation
     └── demo.txt                    # Sample data format
 ```
