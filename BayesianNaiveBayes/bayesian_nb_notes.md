@@ -107,18 +107,15 @@ $$
 
 ### 3.3 Class label
 
-`predict` returns $\arg\max_c \log \tilde{P}(c \mid x)$, i.e. the same class as `predict_proba` but without spending the normalization step.
+`predict` returns $\arg\max_c \log \tilde{P}(c \mid \mathbf{x})$, i.e. the same class as `predict_proba` but without spending computational power on the normalization step.
 
-For the two-class case the decision rule simplifies to comparing the log odds,
+For the two-class case, the decision rule simplifies to comparing the log odds:
 
 $$
-\log \frac{P(y=1 \mid x)}{P(y=0 \mid x)}
-= \log \frac{\pi_1}{\pi_0}
-+ \sum_j x_j \log \frac{\theta_{1j}(1-\theta_{0j})}{\theta_{0j}(1-\theta_{1j})}
-+ \sum_j \log \frac{1-\theta_{1j}}{1-\theta_{0j}},
+\log \frac{P(y=1 \mid \mathbf{x})}{P(y=0 \mid \mathbf{x})} = \log \frac{\bar{\pi}_1}{\bar{\pi}_0} + \sum_{j} x_j \log \frac{\bar{\theta}_{1j}(1 - \bar{\theta}_{0j})}{\bar{\theta}_{0j}(1 - \bar{\theta}_{1j})} + \sum_{j} \log \frac{1 - \bar{\theta}_{1j}}{1 - \bar{\theta}_{0j}}
 $$
 
-which makes it obvious that only features with $\theta_{0j} \neq \theta_{1j}$ contribute to the decision.
+which makes it obvious that only features where $\bar{\theta}_{0j} \neq \bar{\theta}_{1j}$ contribute to the decision.
 
 ---
 
