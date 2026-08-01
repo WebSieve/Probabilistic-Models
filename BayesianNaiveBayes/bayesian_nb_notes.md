@@ -115,7 +115,7 @@ $$
 \log \frac{P(y=1 \mid \mathbf{x})}{P(y=0 \mid \mathbf{x})} = \log \frac{\bar{\pi}_1}{\bar{\pi}_0} + \sum_{j} x_j \log \frac{\bar{\theta}_{1j}(1 - \bar{\theta}_{0j})}{\bar{\theta}_{0j}(1 - \bar{\theta}_{1j})} + \sum_{j} \log \frac{1 - \bar{\theta}_{1j}}{1 - \bar{\theta}_{0j}}
 $$
 
-which makes it obvious that only features where $\bar{\theta}_{0j} \neq \bar{\theta}_{1j}$ contribute to the decision.
+which makes it obvious that only features where $$\bar{\theta}_{0j} \neq \bar{\theta}_{1j}$$ contribute to the decision.
 
 ---
 
