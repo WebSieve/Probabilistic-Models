@@ -67,7 +67,7 @@ Binary-feature Naive Bayes classifier with a full Bayesian treatment and mutual-
 - **Prior:** $\text{Dirichlet}(\alpha)$ over class proportions $\pi$; $\text{Beta}(\beta_1, \beta_0)$ over each per-class feature probability $\theta_{cj}$
 - **Likelihood:** Product of $\text{Bernoulli}(x_j \mid \theta_{cj})$ across features — Naive Bayes conditional independence
 - **Posterior:** $\text{Dirichlet}(\alpha + N_c)$ and $\text{Beta}(\beta_1 + n_{cj}, \beta_0 + N_c - n_{cj})$ — conjugate updates per class
-- **Predictive:** Posterior-mean plug-in — $P(c \mid \mathbf{x}) \propto \bar{\pi}_c \prod_{j} \bar{\theta}_{cj}^{x_j} (1 - \bar{\theta}_{cj})^{1 - x_j}$, normalized via `logsumexp`.
+- **Predictive:** Posterior-mean plug-in — $P(c \mid \mathbf{x}) \propto \bar{\pi}_c \prod_{j=1}^{D} \bar{\theta}_{cj}^{x_j} (1 - \bar{\theta}_{cj})^{1 - x_j}$, normalized via `logsumexp`
 
 **Key Capabilities:**
 
