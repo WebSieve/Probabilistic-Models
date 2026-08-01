@@ -57,6 +57,38 @@ Full Bayesian text classifier using the Dirichlet-Multinomial compound distribut
 
 ---
 
+### Bayesian Naive Bayes
+
+**Location:** `BayesianNaiveBayes/bayesian_nb.py`  
+**Mathematical details:** `BayesianNaiveBayes/bayesian_nb_notes.md`
+
+Binary-feature Naive Bayes classifier with a full Bayesian treatment and mutual-information feature selection.
+
+- **Prior:** Dirichlet(α) over class proportions π; Beta(β₁, β₀) over each per-class feature probability θ_cj
+- **Likelihood:** Product of Bernoulli(x_j | θ_cj) across features — Naive Bayes conditional independence
+- **Posterior:** Dirichlet(α + N_c) and Beta(β₁ + n_cj, β₀ + N_c − n_cj) — conjugate updates per class
+- **Predictive:** Posterior-mean plug-in — P(c | x) ∝ π_c ∏_j θ_cj^x_j (1 − θ_cj)^(1−x_j), normalized via logsumexp
+
+**Key Capabilities:**
+
+- Posterior-mean parameter estimation (no hard point estimates)
+- Mutual-information feature selection with configurable top-k
+- Stable log-space scoring and softmax normalization using `scipy.special.logsumexp`
+- Conjugate updates from Dirichlet and Beta priors (no MCMC)
+- Handles sparse binary features well out of the box
+
+**Visualization:**
+
+- Feature MI ranking with selected features highlighted
+- P(active | class) heatmap for selected features
+- Confusion matrix and ROC curve with AUC
+- Held-out accuracy vs. number of kept features
+- Predicted probability histogram split by true class
+
+**Use Cases:** Classification with sparse binary features — bag-of-words text, spam filtering, medical/genomic screening — especially when feature selection or reliable probabilities matter.
+
+---
+
 ## Implementation Philosophy
 
 - **From scratch** — No scikit-learn, PyMC, PyTorch, or TensorFlow; pure NumPy/SciPy
@@ -81,6 +113,9 @@ New models currently in development:
 ```
 PPModels/
 ├── pyproject.toml                  # Project configuration
+├── BayesianNaiveBayes/
+│   ├── bayesian_nb.py             # Bayesian Naive Bayes implementation + demo
+│   └── bayesian_nb_notes.md       # Mathematical documentation
 ├── Beta_Binomial_model/
 │   └── beta_bin_model.py          # Beta-Binomial implementation + demo
 └── Dirichlet_Multinomial_Model/
