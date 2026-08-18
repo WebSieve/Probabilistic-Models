@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        working-directory: Dirichlet_Compound_Multinomial
+        run: uv sync
+
+      - name: Run benchmark smoke test
+        working-directory: Dirichlet_Compound_Multinomial
+        env:
+          PYTHONPATH: src
+        run: |
+          uv run python -c "
+          from dirichlet_compound_multinomial import dataClass, DCM, Evaluator
+          data = dataClass()
+          messages, labels = data.getMsgLabel()
+          y = data.labels_to_vector(labels)
+          tr, te = data.split_indices(y)
+          vocab, _ = data.buildVocab([messages[i] for i in tr])
+          X = data.docs_to_matrix(messages, vocab)
+          model = DCM(alpha_init=1.0); model.fit(X[tr], y[tr])
+          pred = model.predict(X[te])
+          acc = Evaluator.accuracy(y[te], pred)
+          print(f'accuracy: {acc:.4f}')
+          assert acc >= 0.90, f'accuracy regression: {acc}'
+          "

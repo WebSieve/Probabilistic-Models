@@ -1,0 +1,21 @@
+[project]
+name = "dirichlet-compound-multinomial"
+version = "0.1.0"
+description = "Dirichlet Compound Multinomial on Bag of Words and Document Classification"
+readme = "README.md"
+authors = [
+    { name = "Sahil Murmu", email = "msahil2603@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10.9",
+    "numpy>=2.4.6",
+    "scipy>=1.18.0",
+]
+
+[project.scripts]
+dirichlet-compound-multinomial = "dirichlet_compound_multinomial:main"
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"
