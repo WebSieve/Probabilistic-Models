@@ -89,6 +89,37 @@ Binary-feature Naive Bayes classifier with a full Bayesian treatment and mutual-
 
 ---
 
+### Dirichlet Compound Multinomial (DCM) — Document Classification
+
+**Location:** `Dirichlet_Compound_Multinomial/` (standalone package, own README)  
+**Dataset:** UCI SMS Spam Collection v.1 (5,574 messages) in `Dirichlet_Compound_Multinomial/assets/`
+
+A fully Bayesian text classifier using the Dirichlet-Multinomial compound distribution, with θ integrated out analytically.
+
+- **Prior:** θ_c ~ Dirichlet(α) over per-class word-probability vectors
+- **Likelihood:** Multinomial(N, θ_c) — document word counts
+- **Posterior:** Dirichlet(α + c_c) — conjugate update from summed per-class counts
+- **Predictive:** compound likelihood P(x | α′) — θ integrated out, no point estimates
+
+**Key Capabilities:**
+
+- Full Bayesian inference (no point estimates, no MCMC)
+- Log-space compound likelihood via `scipy.special.gammaln` + `logsumexp`
+- Stratified train/test split preserving class proportions; vocabulary built on train only (no data leakage)
+- From-scratch tokenization, vocabulary, and sparse count-matrix construction (`np.add.at`)
+- Built-in evaluation: accuracy, precision/recall/F1, confusion matrix, learning curve, top discriminative words
+
+**Results (UCI SMS Spam):**
+
+- Accuracy **98.75%**, F1 (spam) **95.27%** on a 7,921-word vocabulary
+- Error rate falls from ~3.0% (10% of data) to ~1.25% (100%)
+
+**CI:** GitHub Actions workflow runs a benchmark smoke test with an accuracy-regression gate on every push/PR.
+
+**Use Cases:** Text classification, spam detection, document categorization — especially effective on small training sets where posterior uncertainty matters.
+
+---
+
 ## Implementation Philosophy
 
 - **From scratch** — No scikit-learn, PyMC, PyTorch, or TensorFlow; pure NumPy/SciPy
@@ -118,10 +149,23 @@ PPModels/
 │   └── bayesian_nb_notes.md       # Mathematical documentation
 ├── Beta_Binomial_model/
 │   └── beta_bin_model.py          # Beta-Binomial implementation + demo
-└── Dirichlet_Multinomial_Model/
-    ├── dirichlet_multinomial_model.py  # Clean implementation
-    ├── doc.md                      # Full mathematical documentation
-    └── demo.txt                    # Sample data format
+├── Dirichlet_Multinomial_Model/
+│   ├── dirichlet_multinomial_model.py  # Clean implementation
+│   ├── doc.md                      # Full mathematical documentation
+│   └── demo.txt                    # Sample data format
+└── Dirichlet_Compound_Multinomial/     # DCM text classifier on UCI SMS spam
+    ├── README.md                       # Math, usage, benchmark results
+    ├── pyproject.toml                  # NumPy, SciPy, Matplotlib only
+    ├── LICENSE                         # MIT
+    ├── .github/workflows/ci.yml        # CI with accuracy-regression gate
+    ├── assets/
+    │   ├── SMSSpamCollection           # UCI SMS Spam Collection v.1
+    │   └── readme                      # Dataset description / license
+    └── src/dirichlet_compound_multinomial/
+        ├── __init__.py                 # Public API (dataClass, DCM, Evaluator)
+        ├── data.py                     # Tokenization, vocab, count matrix, split
+        ├── model.py                    # DCM: compound log-likelihood, fit, predict
+        └── eval.py                     # Metrics, confusion matrix, learning curve
 ```
 
 ## License
