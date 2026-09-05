@@ -1,5 +1,9 @@
 # Probabilistic Models
 
+### Coming up
+
+> **Gaussian Discriminant Analysis Models such as Quadratic Discriminant Analysis and Linear Discriminant Analysis.**
+
 A showcase of *probabilistic models* implemented from scratch using `NumPy` and `SciPy`. This repository demonstrates Bayesian inference techniques with clean, readable implementations.
 
 ## Current Models

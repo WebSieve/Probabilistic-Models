@@ -1,0 +1,17 @@
+[project]
+name = "gaussian-prob-models"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Sahil Murmu", email = "msahil2603@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+gaussian-prob-models = "gaussian_prob_models:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
