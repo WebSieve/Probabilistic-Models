@@ -1,9 +1,5 @@
 # Probabilistic Models
 
-### Coming up
-
-> **Gaussian Discriminant Analysis Models such as Quadratic Discriminant Analysis and Linear Discriminant Analysis.**
-
 A showcase of *probabilistic models* implemented from scratch using `NumPy` and `SciPy`. This repository demonstrates Bayesian inference techniques with clean, readable implementations.
 
 ## Current Models
@@ -124,6 +120,40 @@ A fully Bayesian text classifier using the Dirichlet-Multinomial compound distri
 
 ---
 
+### Gaussian Discriminant Analysis (LDA / QDA)
+
+**Location:** `Gaussian_Prob_Models/` (standalone package, own README)
+**Dataset:** Synthetic Gaussian profiles in `src/gaussian_prob_models/datasets.py` — unequal/equal covariance (binary), 3-class multiclass, and a high-dim stability stress test
+
+Linear and Quadratic Discriminant Analysis from scratch: each class is a multivariate Gaussian, posteriors via Bayes' rule computed in log space.
+
+- **Prior:** π_c = N_c / N — class frequencies
+- **Means:** μ_c — per-class sample means
+- **QDA covariances:** one MLE covariance Σ_c per class → quadratic decision boundary
+- **LDA covariances:** single pooled Σ shared across classes → linear boundary (`LDA` subclasses `QDA`, overriding only `fit`)
+- **Predictive:** P(c | x) ∝ π_c · N(x | μ_c, Σ_c) — Mahalanobis + `slogdet` log-likelihoods normalized via `logsumexp`
+
+**Key Capabilities:**
+
+- Full generative probabilistic classifier (exact Bayes posteriors, no discriminative shortcuts)
+- Numerically stable log-space scoring; no scikit-learn, PyTorch, or TensorFlow
+- One-command pipeline: data → train → figures + `metrics.json` (figures saved to `reports/` and opened on screen)
+- Single data generator feeding the pipeline, the CLI shim, and the tests; 17 stdlib-unittest tests run manually, never as a pipeline side effect
+
+**Results (synthetic, 600 samples/profile, 70/30 split, seed 42):**
+
+- QDA **99.44%** on unequal covariances (its showcase); LDA **99.44%** on equal covariances
+- Both ≥96.6% on 3-class problems, ~90% in 5-D
+
+**Visualization:**
+
+- LDA/QDA decision-boundary contours per 2-D profile
+- Confusion-matrix heatmaps for every profile, accuracy and precision/recall/F1 comparison bars
+
+**Use Cases:** Tabular classification with roughly Gaussian classes — medical biometrics, quality control, sensor data — and as a teaching reference for generative vs. discriminative modeling.
+
+---
+
 ## Implementation Philosophy
 
 - **From scratch** — No scikit-learn, PyMC, PyTorch, or TensorFlow; pure NumPy/SciPy
@@ -157,19 +187,32 @@ PPModels/
 │   ├── dirichlet_multinomial_model.py  # Clean implementation
 │   ├── doc.md                      # Full mathematical documentation
 │   └── demo.txt                    # Sample data format
-└── Dirichlet_Compound_Multinomial/     # DCM text classifier on UCI SMS spam
+├── Dirichlet_Compound_Multinomial/     # DCM text classifier on UCI SMS spam
+│   ├── README.md                       # Math, usage, benchmark results
+│   ├── pyproject.toml                  # NumPy, SciPy, Matplotlib only
+│   ├── LICENSE                         # MIT
+│   ├── .github/workflows/ci.yml        # CI with accuracy-regression gate
+│   ├── assets/
+│   │   ├── SMSSpamCollection           # UCI SMS Spam Collection v.1
+│   │   └── readme                      # Dataset description / license
+│   └── src/dirichlet_compound_multinomial/
+│       ├── __init__.py                 # Public API (dataClass, DCM, Evaluator)
+│       ├── data.py                     # Tokenization, vocab, count matrix, split
+│       ├── model.py                    # DCM: compound log-likelihood, fit, predict
+│       └── eval.py                     # Metrics, confusion matrix, learning curve
+└── Gaussian_Prob_Models/               # LDA/QDA classifiers on synthetic Gaussian data
     ├── README.md                       # Math, usage, benchmark results
-    ├── pyproject.toml                  # NumPy, SciPy, Matplotlib only
-    ├── LICENSE                         # MIT
-    ├── .github/workflows/ci.yml        # CI with accuracy-regression gate
-    ├── assets/
-    │   ├── SMSSpamCollection           # UCI SMS Spam Collection v.1
-    │   └── readme                      # Dataset description / license
-    └── src/dirichlet_compound_multinomial/
-        ├── __init__.py                 # Public API (dataClass, DCM, Evaluator)
-        ├── data.py                     # Tokenization, vocab, count matrix, split
-        ├── model.py                    # DCM: compound log-likelihood, fit, predict
-        └── eval.py                     # Metrics, confusion matrix, learning curve
+    ├── pyproject.toml                  # NumPy, SciPy, Matplotlib, Seaborn
+    ├── requirements.txt                # Pinned dependency versions
+    ├── data/generate_data.py           # CLI shim over the packaged generator
+    ├── tests/test_models.py            # 17 stdlib-unittest tests (run manually)
+    └── src/gaussian_prob_models/
+        ├── __init__.py                 # Public API (LDA, QDA, data generator, run_pipeline)
+        ├── qda.py                      # QDA: fit, log-likelihood, predict/proba
+        ├── lda.py                      # LDA(QDA): pooled-covariance fit
+        ├── datasets.py                 # Synthetic data generator (single source of truth)
+        ├── evaluate.py                 # Metrics, confusion matrix, figures
+        └── pipeline.py                 # One-command pipeline: data -> train -> figures
 ```
 
 ## License
