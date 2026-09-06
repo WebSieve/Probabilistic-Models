@@ -107,7 +107,7 @@ def classification_stats(y_true, y_pred, labels=None):
     }
 
 
-def plot_boundary(model, X, y, title, save_path, resolution=2000, show=True):
+def plot_boundary(model, X, y, title, save_path, resolution=500, show=True):
     """
     Decision-boundary contour + data scatter for 2-D datasets.
     """
