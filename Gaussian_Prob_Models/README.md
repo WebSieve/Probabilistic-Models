@@ -1,5 +1,8 @@
 # Gaussian Discriminant Analysis — LDA / QDA from Scratch
 
+> [!NOTE]
+> **Create your own `reports` directory inside this project.
+
 Linear and Quadratic Discriminant Analysis built from scratch with NumPy and SciPy. Each class is modeled as a multivariate Gaussian; classification is fully probabilistic — posterior class probabilities come from Bayes' rule with Gaussian log-likelihoods computed in log space, with no point-estimate shortcuts and no machine-learning frameworks.
 
 ## The Model
