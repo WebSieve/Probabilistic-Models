@@ -1,0 +1,17 @@
+[project]
+name = "beta-binomial-model"
+version = "0.1.0"
+description = "Beta Binomial Model Implementation"
+readme = "README.md"
+authors = [
+    { name = "Sahil Murmu", email = "msahil2603@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+beta-binomial-model = "beta_binomial_model:main"
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"

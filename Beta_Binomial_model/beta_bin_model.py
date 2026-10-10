@@ -106,31 +106,32 @@ class beta_binomial_model:
         return (a * b) / ((a + b) ** 2 * (a + b + 1))
 
 
-# 1. Initializing model
-model = beta_binomial_model(alpha=2, beta=2, error_coef=1e-10)
+if __name__ == "__main__":
+    # 1. Initializing model
+    model = beta_binomial_model(alpha=2, beta=2, error_coef=1e-10)
 
-# 2. Setting plotting
-p_values = np.linspace(0.01, 0.99, 200)
-fig, ax = plt.subplots(figsize=(10, 6))
+    # 2. Setting plotting
+    p_values = np.linspace(0.01, 0.99, 200)
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-# Defining data batches (e.g., [successes, trials])
-batches = [[4, 5], [10, 10]]
+    # Defining data batches (e.g., [successes, trials])
+    batches = [[4, 5], [10, 10]]
 
-# Plotting the process
-for i, (k, n) in enumerate(batches):
-    # Get current posterior
-    _, post_probs = model.posterior(p_values)
-    ax.plot(p_values, post_probs, label=f"Step {i}: After {k}/{n} obs")
+    # Plotting the process
+    for i, (k, n) in enumerate(batches):
+        # Get current posterior
+        _, post_probs = model.posterior(p_values)
+        ax.plot(p_values, post_probs, label=f"Step {i}: After {k}/{n} obs")
 
-    # Updating model with new batch
-    model.posterior_updation(k, n)
+        # Updating model with new batch
+        model.posterior_updation(k, n)
 
-# Final result
-_, final_post = model.posterior(p_values)
-ax.plot(p_values, final_post, label="Final Belief", linewidth=3, color="black")
+    # Final result
+    _, final_post = model.posterior(p_values)
+    ax.plot(p_values, final_post, label="Final Belief", linewidth=3, color="black")
 
-ax.set_title("Evolution of Belief: Bayesian Sequential Updating")
-ax.set_xlabel("Probability (p)")
-ax.set_ylabel("Posterior Density")
-ax.legend()
-plt.show()
+    ax.set_title("Evolution of Belief: Bayesian Sequential Updating")
+    ax.set_xlabel("Probability (p)")
+    ax.set_ylabel("Posterior Density")
+    ax.legend()
+    plt.show()

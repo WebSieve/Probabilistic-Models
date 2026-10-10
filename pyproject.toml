@@ -5,6 +5,7 @@ description = "I'm trying to implement most of the probabilistic models from scr
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "kagglehub>=1.0.2",
     "matplotlib>=3.10.9",
     "numpy>=2.4.6",
     "pandas>=3.0.3",
